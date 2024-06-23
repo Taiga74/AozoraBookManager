@@ -1,0 +1,25 @@
+<h1>AozoraBooksManager</h1>
+
+<%= form_with url: search_books_path, method: :get, local: true do |form| %>
+  <div>
+    <%= form.label :query, "作品名・作者検索" %>
+    <%= form.text_field :query, value: params[:query] %>
+  </div>
+
+  <div>
+    <%= form.label :category, "カテゴリ検索" %>
+    <%= form.select :category, options_for_select(@categories.map { |c| [c.category, c.category] }, params[:category]), include_blank: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Search" %>
+  </div>
+<% end %>
+
+<ul>
+  <% @books.each do |book| %>
+    <li>
+      <%= link_to book.title, book_path(book) %>
+    </li>
+  <% end %>
+</ul>
