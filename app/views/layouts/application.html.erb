@@ -1,32 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>AozoraBookManager</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>AozoraBookManager</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
 
+<body>
   <header>
-  <nav>
-    <ul>
-      <li><%= link_to 'Home', root_path %></li>
-      <% if user_signed_in? %>
-        <li><%= link_to 'お気に入り', favorites_path %></li>
-        <li><%= link_to '後で見る', bookmarks_path %></li>
-        <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
-      <% else %>
-        <li><%= link_to 'Login', new_user_session_path %></li>
-        <li><%= link_to 'Sign up', new_user_registration_path %></li>
-      <% end %>
-    </ul>
-  </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <%= link_to 'AozoraBookManager', root_path, class: "navbar-brand" %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <%= link_to 'Home', root_path, class: "nav-link" %>
+            </li>
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to 'お気に入り', favorites_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '後で見る', bookmarks_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Login', new_user_session_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Sign up', new_user_registration_path, class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
 
-  <body>
+  <div class="container mt-4">
+    <% if notice %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= alert %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
     <%= yield %>
-  </body>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-KhZ83jvR9/rJFp8xQb1maL+u8ZrfYkQ1KJ40WvMwDwLJ9LMrmV5fHjGK6r8kdPu/" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
 </html>

@@ -4,13 +4,13 @@ class FavoritesController < ApplicationController
   def create
     @book = Book.find(params[:id])
     current_user.favorite_books << @book
-    redirect_to book_path(@book), notice: 'Book was successfully added to favorites.'
+    redirect_to book_path(@book)
   end
 
   def destroy
     @book = Book.find(params[:id])
     current_user.favorite_books.delete(@book)
-    redirect_to book_path(@book), notice: 'Book was successfully removed from favorites.'
+    redirect_to book_path(@book)
   end
 
   def index
