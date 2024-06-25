@@ -1,19 +1,23 @@
-<h1>AozoraBooksManager</h1>
+<h1>AozoraBook</h1>
 
-<%= form_with url: search_books_path, method: :get, local: true do |form| %>
-  <div>
-    <%= form.label :query, "作品名・作者検索" %>
-    <%= form.text_field :query, value: params[:query] %>
-  </div>
+<% if user_signed_in? %>
+  <%= form_with url: search_books_path, method: :get, local: true do |form| %>
+    <div>
+      <%= form.label :query, "作品名・作者で検索" %>
+      <%= form.text_field :query, value: params[:query] %>
+    </div>
 
-  <div>
-    <%= form.label :category, "カテゴリ検索" %>
-    <%= form.select :category, options_for_select(@categories.map { |c| [c.category, c.category] }, params[:category]), include_blank: true %>
-  </div>
+    <div>
+      <%= form.label :category, "カテゴリで検索" %>
+      <%= form.select :category, options_for_select(@categories.map { |c| [c.category, c.category] }, params[:category]), include_blank: true %>
+    </div>
 
-  <div>
-    <%= form.submit "Search" %>
-  </div>
+    <div>
+      <%= form.submit "Search" %>
+    </div>
+  <% end %>
+<% else %>
+  <p>Please <%= link_to 'log in', new_user_session_path %> to use the search and favorite features.</p>
 <% end %>
 
 <ul>

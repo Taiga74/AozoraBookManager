@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!, only: [:search]
+
   def index
     @books = Book.all
     @categories = Book.select(:category).distinct

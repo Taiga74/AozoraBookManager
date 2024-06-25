@@ -1,0 +1,10 @@
+<h1>お気に入り</h1>
+
+<ul>
+  <% @favorite_books.each do |book| %>
+    <li>
+      <%= link_to book.title, book_path(book) %>
+      <%= button_to 'お気に入りから削除', favorite_book_path(book), method: :delete %>
+    </li>
+  <% end %>
+</ul>

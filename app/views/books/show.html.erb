@@ -1,6 +1,49 @@
 <h1><%= @book.title %></h1>
-<p>Author: <%= @book.author %></p>
-<p>Publication Date: <%= @book.publication_date %></p>
-<p><%= link_to 'Read the book', @book.url %></p>
-<p>Word Count: <%= @book.word_count %></p>
-<p>Category: <%= @book.category %></p>
+<p>著者: <%= @book.author %></p>
+<p>発行日: <%= @book.publication_date %></p>
+<p>文字数: <%= @book.word_count %></p>
+<p>カテゴリ: <%= @book.category %></p>
+<p><%= link_to '作品を読む', @book.url %></p>
+
+<% if user_signed_in? %>
+  <% if current_user.favorite_books.include?(@book) %>
+    <%= button_to 'お気に入りから削除', favorite_book_path(@book), method: :delete %>
+  <% else %>
+    <%= button_to 'お気に入り追加', favorite_book_path(@book), method: :post %>
+  <% end %>
+
+  <% if current_user.bookmarked_books.include?(@book) %>
+    <%= button_to '後で見るから削除', bookmark_book_path(@book), method: :delete %>
+  <% else %>
+    <%= button_to '後で見る', bookmark_book_path(@book), method: :post %>
+  <% end %>
+<% end %>
+
+<h2>評価・コメント</h2>
+<% @book.reviews.each do |review| %>
+  <div>
+    <strong>評価:</strong> <%= review.rating %> / 5<br>
+    <strong>コメント:</strong> <%= review.comment %><br>
+    <strong>ユーザー:</strong> <%= review.user.email %>
+  </div>
+  <hr>
+<% end %>
+
+<% if user_signed_in? %>
+  <h3>評価・コメントを投稿する</h3>
+  <%= form_with model: [@book, @book.reviews.new], url: review_book_path(@book), local: true do |form| %>
+    <div>
+      <%= form.label :評価 %>
+      <%= form.number_field :rating, in: 1..5 %>
+    </div>
+    <div>
+      <%= form.label :コメント %>
+      <%= form.text_area :comment %>
+    </div>
+    <div>
+      <%= form.submit '投稿' %>
+    </div>
+  <% end %>
+<% else %>
+  <p>You need to <%= link_to 'sign in', new_user_session_path %> to add a review.</p>
+<% end %>
